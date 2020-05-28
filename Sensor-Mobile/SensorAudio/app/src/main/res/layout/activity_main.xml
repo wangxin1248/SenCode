@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cl_main"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".view.MainActivity">
+    <!--  歌曲展示  -->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+        <!--    歌曲列表    -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+            <ListView
+                    android:id="@+id/lv_music"
+                    android:layout_width="match_parent"
+                    android:layout_height="580dp"
+                    android:background="#00FFFFFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+        <!--    进度显示    -->
+        <LinearLayout
+                android:id="@+id/ll_media"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:layout_marginTop="8dp"
+                android:background="#00FFFFFF"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_song">
+
+            <TextView
+                    android:id="@+id/tv_leftTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="0:01"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:paddingEnd="5dp" />
+
+            <TextView
+                    android:id="@+id/tv_rightTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="4:30"
+                    android:textColor="#FFFFFF" />
+        </LinearLayout>
+        <!--控制按钮-->
+        <LinearLayout
+                android:id="@+id/ll_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:background="#00FFFFFF"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_media"
+                app:layout_constraintVertical_bias="0.333">
+
+            <ImageButton
+                    android:id="@+id/ib_precious"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="#00FFFFFF"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/precious" />
+
+            <ImageButton
+                    android:id="@+id/ib_state"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="#00FFFFFF"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/start" />
+
+            <ImageButton
+                    android:id="@+id/ib_next"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="30dp"
+                    android:background="#00FFFFFF"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/next" />
+
+        </LinearLayout>
+        <!--    底部信息显示    -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4">
+            <TextView
+                    android:id="@+id/tv_song"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="未知"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:lines="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lv_music" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--功能按钮区-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="vertical">
+        <!--采样率设置-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/et_sensor_data"
+                    android:textColor="#ffffff"
+                    android:id="@+id/et_sensor_data"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <Button
+                    android:id="@+id/but_sensor_data_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/but_sensor_data_set"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+        <!--播放功能设置-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <Button
+                    android:id="@+id/but_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/but_start"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_weight="1">
+                <Button
+                    android:id="@+id/but_upload"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/but_upload"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

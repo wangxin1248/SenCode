@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MusicSensor</string>
+    <string name="but_start">播放</string>
+    <string name="but_sensor_data_set">设置采样率</string>
+    <string name="et_sensor_data">默认采样率:8000</string>
+    <string name="but_upload">上传</string>
+</resources>

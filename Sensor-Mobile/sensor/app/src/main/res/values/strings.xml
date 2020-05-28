@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">sensor</string>
+    <string name="title_activity_sensor">SensorActivity</string>
+    <string name="title_activity_gps">GpsActivity</string>
+</resources>

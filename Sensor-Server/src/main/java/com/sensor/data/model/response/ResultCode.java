@@ -1,0 +1,16 @@
+package com.sensor.data.model.response;
+
+/**
+ * @Author: Xin Wang.
+ * @Date:Created in 2020/4/8 10:55.
+ * @Description: 系统响应代码
+ */
+public interface ResultCode {
+    //操作是否成功,true为成功，false操作失败
+    boolean success();
+    //操作代码
+    int code();
+    //提示信息
+    String message();
+
+}
