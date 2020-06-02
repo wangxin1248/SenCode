@@ -33,8 +33,6 @@ import com.wangxin1248.sensoraudio.utils.ApplicationUtil;
 import com.wangxin1248.sensoraudio.utils.MusicUtil;
 import com.wangxin1248.sensoraudio.view.adapter.MyAdapter;
 
-import org.apache.commons.codec.binary.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -209,19 +207,24 @@ public class MainActivity extends AppCompatActivity  {
         song=list.get(0).getTitle();
         tv_song.setText(song);
 
-        //歌曲列表点击某个Item
+        // 歌曲列表点击某个Item
         lv_music.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 check();
+                // 记录当前歌曲位置
                 music_index=position;
-                isPlaying=true;
+                // 是否播放状态
+                isPlaying=false;
                 adapter.setCurrentItem(music_index);
                 adapter.notifyDataSetInvalidated();
                 song=list.get(music_index).getTitle();
                 tv_song.setText(song);
                 ib_state.setImageResource(R.drawable.stop);
                 showNotification();
+                // 开始播放所选择的音乐
+                myBinder.seekToPosition(seek_flag);
+                but_start.callOnClick();
             }
         });
         // 为按钮设置点击事件
@@ -347,6 +350,8 @@ public class MainActivity extends AppCompatActivity  {
                         sendBroadcast(stopFileWriteIntent);
                         // 按钮显示播放
                         but_start.setText("播放");
+                        // 提示保存文件的目录
+                        Toast.makeText(MainActivity.this, "请打开"+file.getAbsolutePath()+"查看保存的文件",Toast.LENGTH_LONG).show();
                     }
                     showNotification();
                     break;

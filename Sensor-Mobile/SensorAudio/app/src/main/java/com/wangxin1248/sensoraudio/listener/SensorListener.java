@@ -71,9 +71,7 @@ public class SensorListener implements SensorEventListener {
         head.append("date"+",");
         head.append("data1"+",");
         head.append("data2"+",");
-        head.append("data3"+",");
-        head.append("data4"+",");
-        head.append("data5");
+        head.append("data3");
         // 文件不存在时保存文件头信息
         if(!file.exists()) {
             try {
