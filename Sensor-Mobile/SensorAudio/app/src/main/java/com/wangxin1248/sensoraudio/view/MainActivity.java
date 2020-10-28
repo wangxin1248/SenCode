@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity  {
     // 声明传感器对象集合
     private List<Sensor> sensors;
     // 声明传感器采集频率
-    private static int SENSOR_RATE = 8000;
+    private static int SENSOR_RATE = 0;
     // 广播数据
     private Intent stopFileWriteIntent = new Intent("com.example.communication.STOP_FILE_RECEIVER");
     // 声明后台文件上传服务
@@ -425,13 +425,18 @@ public class MainActivity extends AppCompatActivity  {
             seekBar.setProgress(myBinder.getPlayPosition());
             tv_leftTime.setText(time.format(myBinder.getPlayPosition())+"");
             tv_rightTime.setText(time.format(myBinder.getProgress()-myBinder.getPlayPosition())+"");
-            if(myBinder.getProgress()-myBinder.getPlayPosition()<1000){//时间不够了自动触发下一首
-                runOnUiThread(new Runnable() {//使用uiThread触发点击事件
-                    @Override
-                    public void run() {
-                        ib_next.performClick();
-                    }
-                });
+            // 时间不够了自动触发下一首
+            if(myBinder.getProgress()-myBinder.getPlayPosition()<1000){
+                // 停止播放状态
+                but_start.callOnClick();
+                return;
+//                runOnUiThread(new Runnable() {//使用uiThread触发点击事件
+//                    @Override
+//                    public void run() {
+//                        // 播放下一首
+//                        ib_next.performClick();
+//                    }
+//                });
             }
             handler.postDelayed(runnable,1000);
         }

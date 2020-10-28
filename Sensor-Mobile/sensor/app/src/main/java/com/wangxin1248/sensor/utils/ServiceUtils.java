@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class ServiceUtils {
 
+    @SuppressWarnings("deprecation")
     public static boolean isServiceRunning(Context context, String ServiceName) {
         if (("").equals(ServiceName) || ServiceName == null){
             return false;

@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.SneakyThrows;
+
 /**
  * 用来保存所有传感器的数据
  */
@@ -40,17 +42,19 @@ public class SensorListener implements SensorEventListener {
     private File file;
     // 停止文件写入广播
     private StopFileWriteReceiver stopFileWriteReceiver;
+    // 文件写入对象
+    private BufferedWriter bw;
 
     /**
      * 构造函数
      * @param sensor
      */
-    public SensorListener(Sensor sensor, Activity activity){
+    public SensorListener(Sensor sensor, Activity activity) throws IOException {
         // 注册广播接收器
-//        stopFileWriteReceiver = new StopFileWriteReceiver();
-//        IntentFilter stopFileRegIntentFilter = new IntentFilter();
-//        stopFileRegIntentFilter.addAction("com.example.communication.STOP_FILE_RECEIVER");
-//        ApplicationUtil.getContext().registerReceiver(stopFileWriteReceiver, stopFileRegIntentFilter);
+        stopFileWriteReceiver = new StopFileWriteReceiver();
+        IntentFilter stopFileRegIntentFilter = new IntentFilter();
+        stopFileRegIntentFilter.addAction("com.example.communication.STOP_FILE_RECEIVER");
+        activity.registerReceiver(stopFileWriteReceiver, stopFileRegIntentFilter);
         // 获取当前传感器对象
         this.sensor = sensor;
         // 当前传感器的名称
@@ -62,15 +66,13 @@ public class SensorListener implements SensorEventListener {
         // 初始化文件数据保存对象
         fileDates = new ArrayList<>();
         // 设置传感器保存文件
-        file = new File(ApplicationUtil.getContext().getFilesDir().getAbsolutePath() + File.separator +filename + ".csv");
+        file = new File(ApplicationUtil.getContext().getExternalFilesDir("").getAbsolutePath() + File.separator +filename + ".csv");
         StringBuilder head = new StringBuilder();
         // 设置文件头信息
         head.append("date"+",");
         head.append("data1"+",");
         head.append("data2"+",");
-        head.append("data3"+",");
-        head.append("data4"+",");
-        head.append("data5");
+        head.append("data3");
         // 文件不存在时保存文件头信息
         if(!file.exists()) {
             try {
@@ -84,12 +86,15 @@ public class SensorListener implements SensorEventListener {
                 e.printStackTrace();
             }
         }
+        // 创建文件写入对象
+        bw = new BufferedWriter(new FileWriter(file, true));
     }
 
     /**
      * 传感器数据产生了变化
      * @param sensorEvent
      */
+    @SneakyThrows
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         // 获取传感器改变数据
@@ -99,13 +104,15 @@ public class SensorListener implements SensorEventListener {
         for(int i = 0;i<data.length;i++){
             datas.append(data[i]+",");
         }
-        fileDates.add(datas.toString());
-        // 清空数据
-        datas.delete(0,datas.length());
-        if(fileDates.size()>1000){
-            // 超过1000条数据时便将数据写入文件
-            write2File();
+        try{
+            bw.write(datas.toString());
+            bw.newLine();
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+        // 清空旧数据
+        datas.delete(0,datas.length());
     }
 
     /**
@@ -139,17 +146,25 @@ public class SensorListener implements SensorEventListener {
 
     }
 
+    /**
+     * 结束感知的广播接收器
+     */
     public class StopFileWriteReceiver extends BroadcastReceiver {
 
+        @SneakyThrows
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent){
             // 接收广播到的数据
-            String doReg = intent.getStringExtra("listener");
-            if("stop".equals(doReg)){
-                // 结束监听，写入文件
-                write2File();
+            String data = intent.getStringExtra("listener");
+            if("stop".equals(data)){
+                // 结束监听，关闭文件
+                try{
+                    bw.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
             }
         }
     }
 }
-

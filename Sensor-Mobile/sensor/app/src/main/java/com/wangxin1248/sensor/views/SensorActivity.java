@@ -27,8 +27,11 @@ import com.wangxin1248.sensor.listener.MyLocationListener;
 import com.wangxin1248.sensor.listener.SensorListener;
 import com.wangxin1248.sensor.views.adapter.SensorActivityAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.SneakyThrows;
 
 /**
  * 手机传感器信息显示界面
@@ -165,7 +168,7 @@ public class SensorActivity extends AppCompatActivity {
         // 创建视图管理器对象
 //        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         // 获取系统支持的所有传感器对象列表
-        sensors = sensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION);
+        sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
         // 初始化sensorListeners
         listeners = new ArrayList<>();
         // 初始化跳转到传感器数据界面
@@ -188,6 +191,7 @@ public class SensorActivity extends AppCompatActivity {
         activity_sensor_bt_file.setText("开始采集");
 //        activity_sensor_bt_file.setText("Start collection");
         activity_sensor_bt_file.setOnClickListener(new View.OnClickListener() {
+            @SneakyThrows
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
@@ -208,7 +212,11 @@ public class SensorActivity extends AppCompatActivity {
                     // 开始进行数据采集
                     activity_sensor_bt_file.setText("结束采集");
 //                    activity_sensor_bt_file.setText("End collection");
-                    saveFile();
+                    try{
+                        saveFile();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -244,7 +252,7 @@ public class SensorActivity extends AppCompatActivity {
      * 将采集传感器的数据写入文件
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void saveFile() {
+    private void saveFile() throws IOException {
         for (Sensor sensor : sensors) {
             SensorListener listener = new SensorListener(sensor, SensorActivity.this);
             // 注册监听当前传感器的数据变化

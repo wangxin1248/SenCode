@@ -1,8 +1,13 @@
 package com.wangxin1248.sensor.utils;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,16 +17,29 @@ import java.security.NoSuchAlgorithmException;
  */
 public class DeviceUtil {
 
+    private static final String TODO = "TODO";
+
     /**
      * 获取加密之后的设备的唯一标识符
      * @param context
      * @return
      */
-    public static String getUniqueId(Context context){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String getUniqueId(Context context) {
         // 获取 AndroidId
         String androidID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         // 根据 AndroidId 和 Serial Number 组成设备的唯一标识符
-        String id = androidID + Build.SERIAL;
+        if (ActivityCompat.checkSelfPermission(ApplicationUtil.getContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return TODO;
+        }
+        String id = androidID;
 
         // 对设备的唯一标识符进行 MD5 加密并返回
         try {

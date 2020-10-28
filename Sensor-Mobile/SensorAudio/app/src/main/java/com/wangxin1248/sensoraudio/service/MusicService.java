@@ -51,11 +51,14 @@ public class MusicService extends Service {
                     mediaPlayer.reset();
                     mediaPlayer.release();
                 }
+                // 创建媒体播放对象
                 mediaPlayer=new MediaPlayer();
+                // 获取当前媒体播放的地址
                 String str=list.get(this.index).getUrl();
                 mediaPlayer.setDataSource(str);
                 Log.d(TAG,list.get(this.index).getUrl()+"");
                 mediaPlayer.prepare();
+                // 播放音乐
                 mediaPlayer.start();
             } catch (IOException e) {
                 e.printStackTrace();

@@ -9,4 +9,12 @@ import lombok.ToString;
 @ToString
 public class SensorNode {
     List<MySensor> children;
+
+    public List<MySensor> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<MySensor> children) {
+        this.children = children;
+    }
 }

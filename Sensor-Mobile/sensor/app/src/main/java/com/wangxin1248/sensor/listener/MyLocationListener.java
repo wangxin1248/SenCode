@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 用来保存gps的数据
  */
-public class MyLocationListener implements android.location.LocationListener {
+public class MyLocationListener{
 
     // 时间工具类
     private TimeUtil timeUtil;
@@ -77,28 +77,28 @@ public class MyLocationListener implements android.location.LocationListener {
     }
 
 
-    /**
-     * 位置信息发生变化
-     * @param location
-     */
-    @Override
-    public void onLocationChanged(Location location) {
-        // 保存数据
-        datas.append(timeUtil.getTime()+",");
-        datas.append(location.getLongitude()+",");
-        datas.append(location.getLatitude()+",");
-        datas.append(location.getAltitude()+",");
-        datas.append(location.getBearing()+",");
-        datas.append(location.getAccuracy());
-        fileDates.add(datas.toString());
-        // 清空数据
-        datas.delete(0,datas.length());
-        // 超过10条便进行保存
-        if(fileDates.size()>10){
-            // 超过1条数据时便将数据写入文件
-            write2File();
-        }
-    }
+//    /**
+//     * 位置信息发生变化
+//     * @param location
+//     */
+//    @Override
+//    public void onLocationChanged(Location location) {
+//        // 保存数据
+//        datas.append(timeUtil.getTime()+",");
+//        datas.append(location.getLongitude()+",");
+//        datas.append(location.getLatitude()+",");
+//        datas.append(location.getAltitude()+",");
+//        datas.append(location.getBearing()+",");
+//        datas.append(location.getAccuracy());
+//        fileDates.add(datas.toString());
+//        // 清空数据
+//        datas.delete(0,datas.length());
+//        // 超过10条便进行保存
+//        if(fileDates.size()>10){
+//            // 超过1条数据时便将数据写入文件
+//            write2File();
+//        }
+//    }
 
     /**
      * 将数据保存到文件中
@@ -119,21 +119,6 @@ public class MyLocationListener implements android.location.LocationListener {
             Toast.makeText(ApplicationUtil.getContext(),"文件写入失败"+e.toString(),Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
     }
 
     public class StopFileWriteReceiver extends BroadcastReceiver {
